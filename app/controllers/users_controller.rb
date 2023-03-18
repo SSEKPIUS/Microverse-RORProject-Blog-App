@@ -5,10 +5,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    begin
-      @user = User.find(params[:id])
-    rescue => error
-      redirect_to users_path(@user, param: 'No such ID')
-    end
+    @user = User.find(params[:id])
+  rescue StandardError => e
+    redirect_to users_path(@user, param: e)
   end
 end

@@ -1,10 +1,8 @@
 class PostsController < ApplicationController
   def index
-    begin
-      @user = User.find(params[:user_id])
-    rescue => error
-      redirect_to users_path(@user, param: 'No such ID')
-    end
+    @user = User.find(params[:user_id])
+  rescue StandardError => e
+    redirect_to users_path(@user, param: e)
   end
 
   def show
