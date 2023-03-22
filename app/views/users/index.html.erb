@@ -1,14 +1,7 @@
-<h1>Here is a list of users</h1>
-<main class='container'>
-  <% if @users.empty? %>
-    <p class="empty-message">There are no users in database!!!</p>
-  <% else %>
-    <ul class='user-list'>
-      <% @users.each do |user| %>
-        <%= link_to "/users" do %>
-          <%= render user %>
-        <% end %>
-      <% end %>
-    </ul>
-  <% end %>
-</main>
+<div class="all-users">
+<% @users.each do |user| %>
+    <%= link_to(user) do %>
+      <%= render "shared/user_dets", user: user %>
+    <%end%>
+  <%end%>
+</div>

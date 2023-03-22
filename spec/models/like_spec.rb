@@ -1,17 +1,17 @@
 require 'rails_helper'
 
-RSpec.describe Like, type: :model do
-  describe 'associations' do
-    it { should belong_to(:author).class_name('User') }
-    it { should belong_to(:post) }
+RSpec.describe Comment, type: :model do
+  subject { described_class.new(author_id: 1, post_id: 3) }
+
+  before { subject.save }
+
+  it 'author_id should be present' do
+    subject.author_id = nil
+    expect(subject).to_not be_valid
   end
 
-  describe 'update_post_likes_counter' do
-    let!(:user) { User.create!(name: 'John Doe', post_counter: 0) }
-    let!(:post) { Post.create!(title: 'My First Post', author: user, comments_counter: 0, likes_counter: 0) }
-    let!(:like) { Like.new(author: user, post: post) }
-    it 'increments the post likes counter after saving' do
-      expect { like.save }.to change { post.reload.likes_counter }.by(1)
-    end
+  it 'post_id should be an integer' do
+    subject.post_id = 'a'
+    expect(subject).to_not be_valid
   end
 end

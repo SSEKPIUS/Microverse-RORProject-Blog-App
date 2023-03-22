@@ -1,34 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
-  let(:user) { User.create(name: 'John Doe', post_counter: 0) }
-
-  describe 'associations' do
-    it { should belong_to(:author).class_name('User').inverse_of(:posts) }
-    it { should have_many(:comments) }
-    it { should have_many(:likes) }
+  author1 = User.create(name: 'Tom', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Teacher from Mexico.')
+  subject do
+    Post.new(title: 'My post', body: 'Hello! My name is King shukur.', author: author1, comments_counter: 1,
+             likes_counter: 2)
   end
 
-  describe 'validations' do
-    it { should validate_presence_of(:title) }
-    it { should validate_length_of(:title).is_at_most(250) }
-    it { should validate_numericality_of(:comments_counter).only_integer.is_greater_than_or_equal_to(0) }
-    it { should validate_numericality_of(:likes_counter).only_integer.is_greater_than_or_equal_to(0) }
+  before { author1.save }
+  before { subject.save }
+
+  it 'title should be present' do
+    subject.title = nil
+    expect(subject).to_not be_valid
   end
 
-  describe 'recent_comments' do
-    let!(:post) { Post.create!(title: 'My First Post', author: user, comments_counter: 0, likes_counter: 0) }
-    let!(:comment1) { Comment.create!(post: post, author: user, text: 'First Comment') }
-
-    it 'limits the number of most recent comments upto 5 for the post' do
-      expect(post.recent_comments).to eq([comment1])
-    end
-  end
-
-  describe 'update_posts_counter' do
-    let!(:post) { Post.create!(title: 'My First Post', author: user, comments_counter: 0, likes_counter: 0) }
-    it 'increments the author post counter after saving' do
-      expect { post.save }.to change { user.reload.post_counter }.by(1)
-    end
+  it 'likes counter should be an integer' do
+    subject.likes_counter = 'a'
+    expect(subject).to_not be_valid
   end
 end

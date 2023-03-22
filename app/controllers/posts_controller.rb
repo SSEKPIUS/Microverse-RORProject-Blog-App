@@ -1,32 +1,25 @@
 class PostsController < ApplicationController
   def index
     @user = User.find(params[:user_id])
-    @posts = Post.find_by(author_id: params[:id])
-  rescue StandardError => e
-    redirect_to users_path(@user, param: e)
+    @posts = @user.posts.includes(:comments)
   end
 
   def show
-    @post = Post.find_by(id: params[:id])
-    @post = Post.find_by(id: params[:id])
+    @user = User.find(params[:user_id])
+    @post = Post.find(params[:id])
+    @comments = @post.comments
   end
 
   def new
     @post = Post.new
-    render :new
   end
 
   def create
-    @post = Post.new(post_params)
-    @post.comments_counter = 0
-    @post.likes_counter = 0
-    author = current_user
-    @post.author = author
+    @post = Post.new(post_params.merge!(likes_counter: 0, comments_counter: 0))
+    @post.author_id = current_user.id
     if @post.save
-      flash[:success] = 'Post successfully added!'
-      redirect_to user_posts_path(current_user, @post)
+      redirect_to "/users/#{current_user.id}/posts"
     else
-      flash.now[:error] = 'Post creation failed!'
       render :new
     end
   end
@@ -34,6 +27,6 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :text)
+    params.require(:post).permit(:title, :body)
   end
 end
