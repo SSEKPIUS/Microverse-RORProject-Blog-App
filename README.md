@@ -107,6 +107,12 @@ Clone this repository to your desired folder:
 - Twitter: [@twitterhandle](https://twitter.com/SSEK_PIUS)
 - LinkedIn: [LinkedIn](https://linkedin.com/in/pius-ssekweyama-23665794)
 
+2.  Agasha Bornittah
+
+- GitHub: [@githubhandle](https://github.com/Bornittah)
+- Twitter: [@twitterhandle](https://twitter.com/AgashaBornittah)
+- LinkedIn: [LinkedIn](https://www.linkedin.com/in/agasha-bornittah)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- FUTURE FEATURES -->
